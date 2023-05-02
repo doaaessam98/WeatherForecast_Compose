@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">WeatherForecast</string>
+    <string name="home">Home</string>
+    <string name="setting">Setting</string>
+    <string name="alarm">Alarm</string>
+    <string name="favourite">Favourite</string>
+    <string name="pressure">Air Pressure</string>
+    <string name="humidity">Humidity</string>
+    <string name="visibility">Visibility</string>
+    <string name="wind_speed">Wind Speed</string>
+    <string name="sunrise">Sunrise</string>
+    <string name="sunset">Sunset</string>
+    <string name="google_maps_key">AIzaSyCmV7jfWi807RzLygD97LKezfB_P_JaPKE</string>
+    <string name="place">Place</string>
+    <string name="save_location">SaveLocation</string>
+    <string name="alarm_time">Alarm Time</string>
+    <string name="selecte_place">Select Place</string>
+    <string name="save_alarm">Save Alarm</string>
+    <string name="create_alarm">Create Alarm</string>
+    <string name="cancle">Cancel</string>
+    <string name="save">Save</string>
+    <string name="alarms">Alarms</string>
+    <string name="delete">Delete</string>
+    <string name="selected_items">Select items</string>
+    <string name="selected">selected</string>
+    <string name="items">items</string>
+    <string name="cities">Cities</string>
+    <string name="places">Places</string>
+    <string name="confirm">" Delete  place"</string>
+    <string name="delete_message">"Are you sure you want to delete this place "</string>
+    <string name="language">Language</string>
+    <string name="english">English</string>
+    <string name="arabic">Arabic</string>
+    <string name="today">Today</string>
+    <string name="next_7_days">next 7 day</string>
+    <string name="weather_details">Weather Details</string>
+    <string name="search_her">search here</string>
+
+
+</resources>

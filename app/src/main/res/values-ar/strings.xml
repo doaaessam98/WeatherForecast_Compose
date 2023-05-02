@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">الطقس</string>
+    <string name="home">الرئيسية</string>
+    <string name="setting">الاعدادات</string>
+    <string name="alarm">التنبيهات</string>
+    <string name="favourite">المفضلة</string>
+    <string name="pressure">الضغط</string>
+    <string name="humidity">الرطوبة</string>
+    <string name="visibility">الرؤية</string>
+    <string name="wind_speed">سرعية الرياح</string>
+    <string name="sunrise">الشروق</string>
+    <string name="sunset">الغروب</string>
+    <string name="google_maps_key">AIzaSyCmV7jfWi807RzLygD97LKezfB_P_JaPKE</string>
+    <string name="place">الاماكن</string>
+    <string name="save_location">حفظ الموقع</string>
+    <string name="alarm_time">وقت التنبيه</string>
+    <string name="selecte_place">اختار الموقع</string>
+    <string name="save_alarm">حفظ المنبه</string>
+    <string name="create_alarm">عمل تنبيه</string>
+    <string name="cancle">الغاء</string>
+    <string name="save">حفظ</string>
+    <string name="alarms">التنبيهات</string>
+    <string name="delete">حذف</string>
+    <string name="selected_items"> العناصر المختارة</string>
+    <string name="selected">مختارة</string>
+    <string name="items">عناصر</string>
+    <string name="cities">المدن</string>
+    <string name="places">اماكن</string>
+    <string name="confirm"> حذف الموقع</string>
+    <string name="delete_message">هل متاكد من انك تريد حذف هذا العنصر</string>
+    <string name="language">اللغة</string>
+    <string name="english">الانجليزية</string>
+    <string name="arabic">العربية</string>
+    <string name="today">اليوم</string>
+    <string name="next_7_days"> 7ايام القادمة </string>
+    <string name="weather_details">تفاصيل القس</string>
+    <string name="search_her">ابحث هنا..</string>
+
+
+
+
+
+
+</resources>
