@@ -10,7 +10,7 @@
     <string name="wind_speed">Wind Speed</string>
     <string name="sunrise">Sunrise</string>
     <string name="sunset">Sunset</string>
-    <string name="google_maps_key">AIzaSyCmV7jfWi807RzLygD97LKezfB_P_JaPKE</string>
+    <string name="google_maps_key"></string>
     <string name="place">Place</string>
     <string name="save_location">SaveLocation</string>
     <string name="alarm_time">Alarm Time</string>

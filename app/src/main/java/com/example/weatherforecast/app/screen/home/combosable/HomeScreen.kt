@@ -146,77 +146,8 @@ fun LoadingScreen(modifier: Modifier=Modifier) {
 
 
 
-@Composable
-fun HourItem(index:Int,hour: Hourly, modifier: Modifier=Modifier) {
-
-    Card(
-        shape = RoundedCornerShape(16.dp),
-        elevation = 2.dp,
-        modifier = modifier.padding(8.dp),
-        backgroundColor = if(index==0) MaterialTheme.colors.secondary else MaterialTheme.colors.background
-
-         ) {
-
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text =hour.dt.getHour(),
-                modifier = modifier.padding(12.dp))
-            Box(
-                modifier= modifier
-                    .padding(horizontal = 8.dp)
-                    .size(50.dp)
-            ) {
-                var isImageLoading by remember { mutableStateOf(false) }
-                val painter = rememberAsyncImagePainter(
-                    model ="https://openweathermap.org/img/w/${hour?.weather?.get(0)?.icon}.png",
-
-                    )
-
-                isImageLoading = when (painter.state) {
-                    is AsyncImagePainter.State.Loading -> true
-                    else -> false
-                }
-
-                Image(
-                    modifier = Modifier
-                        .size(120.dp),
-                    painter = painter,
-                    contentDescription = "hour Image",
-                    contentScale = ContentScale.Crop,
-                )
 
 
-                if (isImageLoading) {
-
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center),
-                        color =MaterialTheme.colors.primary,
-                    )
-                }
-
-
-            }
-            Text(text =hour.temp.toString(),
-                modifier = modifier.padding(12.dp))
-        }
-
-    }
-}
-
-@RequiresApi(Build.VERSION_CODES.N)
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-fun DayItem(day: Daily,modifier: Modifier=Modifier,onDayClick:(Daily)->Unit) {
-
-    Card(
-        onClick = {onDayClick.invoke(day)},
-        shape = RoundedCornerShape(16.dp),
-        elevation = 4.dp,
-        modifier = modifier.padding(8.dp),
-        ) {
-        Text(text =day.dt.toDate(),
-        modifier = modifier.padding(12.dp))
-  }
-}
 
 fun Int.toDate(): String {
 

@@ -354,7 +354,7 @@ fun CityItem(
 
 
   fun addressFromLatLng(context:Context,latitude: Double, longitude: Double):String {
-            val geocoder = Geocoder(context, Locale.getDefault())
+            val geocoder = Geocoder(context,Locale.getDefault())
             var addressList: List<Address>? = null
             return try {
                  addressList = geocoder.getFromLocation(latitude, longitude, 1)

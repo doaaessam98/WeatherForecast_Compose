@@ -1,74 +1,115 @@
 package com.example.weatherforecast.app.screen.setting
 
 
+import android.content.ContentValues.TAG
+import android.content.Context
+import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.gestures.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.consumePositionChange
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import org.burnoutcrew.reorderable.move
-import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.selection.selectableGroup
-import androidx.compose.material.RadioButton
+import androidx.compose.material.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role
+import androidx.core.os.ConfigurationCompat
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.weatherforecast.R
-import kotlinx.coroutines.CoroutineScope
 
 import kotlinx.coroutines.launch
+import java.util.*
+import com.example.weatherforecast.data.source.local.datastore.StoreLanguage
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun  SettingScreen(
-    modifier: Modifier=Modifier,
-    viewModel: SettingViewModel= hiltViewModel()
+    modifier: Modifier=Modifier
 ) {
-    val radioOptions = listOf("Apple", "Melons")
-    var selectedItem by remember {
-        mutableStateOf(radioOptions[0])
-    }
 
-    Box(modifier = modifier.fillMaxSize()) {
-        
-        Column(modifier = Modifier.selectableGroup()) {
-            Text(text = stringResource(id = R.string.language))
-            radioOptions.forEach { label ->
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(56.dp)
-                        .selectable(
-                            selected = (selectedItem==label),
-                            onClick = { selectedItem = label },
-                            role = Role.RadioButton
-                        )
-                        .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val dataStore = StoreLanguage(context)
+
+    val selectedLanguage  = dataStore.languageFlow.collectAsState().value
+    val languages = listOf(Locale("en", "US"), Locale("ar", "EG"))
+
+
+                 Column(
+                    modifier = Modifier.fillMaxWidth().padding(16.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    RadioButton(
-                        modifier = Modifier.padding(end = 16.dp),
-                        selected = (selectedItem == label),
-                        onClick = null
+                    Text(
+                        text = stringResource(id = R.string.language),
+                        style = MaterialTheme.typography.h6,
+                        modifier = Modifier.padding(bottom = 16.dp)
                     )
-                    Text(text = label)
+                    languages.forEach { language ->
+                        LanguageOption(language = language, selectedLanguage = selectedLanguage, onLanguageSelected = {
+                            Log.e(TAG, "SettingScreen:${language} ", )
+                            Log.e(TAG, "SettingScreen2:${selectedLanguage} ", )
+
+                            scope.launch {
+                              dataStore.saveLanguage(it.language)
+                            }
+
+                        })
+                    }
                 }
             }
+
+    @Composable
+    fun LanguageOption(language: Locale, selectedLanguage: Locale, onLanguageSelected: (Locale) -> Unit) {
+        Row(
+            modifier = Modifier.fillMaxWidth()
+                .padding(vertical = 8.dp)
+                .selectable(
+                    selected =  selectedLanguage.language == language.language,
+                    onClick = { onLanguageSelected(language) })
+        ) {
+            RadioButton(
+                selected = selectedLanguage.language == language.language,
+                onClick = {
+                    onLanguageSelected(language)
+
+
+                }
+            )
+            Text(
+                text = language.displayLanguage,
+                style = MaterialTheme.typography.body1,
+                modifier = Modifier.padding(start = 8.dp)
+            )
         }
     }
 
-   }
 
 
+
+fun updateLocale(language: String,context: Context) {
+    val locale = Locale(language)
+    Locale.setDefault(locale)
+    val config = Configuration().apply {
+        setLocale(locale)
+    }
+    context.resources.updateConfiguration(config, context.resources.displayMetrics)
+}
+
+
+
+private fun getCurrentLocale(context:Context): Locale? {
+    return ConfigurationCompat.getLocales(context.resources.configuration)[0]
+}
+
+private fun setCurrentLocale(context: Context, locale: Locale) {
+    Locale.setDefault(locale)
+    val config = context.resources.configuration
+    config.setLocale(locale)
+    context.createConfigurationContext(config)
+}
 
 
 

@@ -1,5 +1,7 @@
 package com.example.weatherforecast.app.screen.home.combosable
 
+import android.content.Context
+import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.*
 import androidx.compose.animation.slideInHorizontally
@@ -20,12 +22,14 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImagePainter
@@ -41,7 +45,8 @@ import com.example.weatherforecast.domain.models.db.Weather
 import com.example.weatherforecast.domain.models.db.WeatherDB
 import com.example.weatherforecast.domain.models.remote.Daily
 import com.example.weatherforecast.domain.models.remote.Hourly
-
+import kotlinx.serialization.json.Json.Default.configuration
+import java.util.*
 
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -52,7 +57,10 @@ import com.example.weatherforecast.domain.models.remote.Hourly
     onNextDaysClick:(List<Daily>)->Unit,
     onLocationClicked:()->Unit
 ) {
-    val context = LocalContext.current
+    val currentLocale = LocalConfiguration.current.locale
+
+
+    var context = LocalContext.current
 
     var visible by remember { mutableStateOf(false) }
 
@@ -65,7 +73,6 @@ import com.example.weatherforecast.domain.models.remote.Hourly
             iterations = LottieConstants.IterateForever,
             speed = 5f
         )
-
     Box(
         Modifier
             .fillMaxSize()
@@ -110,10 +117,13 @@ import com.example.weatherforecast.domain.models.remote.Hourly
                                 .padding(vertical = 16.dp)
                                 .padding(horizontal = 16.dp),
                                 horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(text = addressFromLatLng(context,weather.lat,weather.lon),
+
+                                Text(
+                                    text = addressFromLatLng(context, weather.lat, weather.lon),
 //                             fontWeight = FontWeight.Bold,
-                                fontSize = 20.sp
-                            )
+                                    fontSize = 20.sp
+                                )
+
                             Text(text = weather.current.dt.toDate(), modifier.padding(top = 4.dp))
 
                         }
@@ -396,141 +406,6 @@ fun ImageFromInternet(modifier: Modifier=Modifier, size: Dp, url: String) {
     }
 
 }
-
-
-
-/////1
-//            if(weather!=null) {
-//                Row(
-//                    verticalAlignment = Alignment.CenterVertically,
-//                    modifier = modifier.padding(top = 64.dp)
-//                    ) {
-//                    Icon(
-//                        imageVector = Icons.Default.Place,
-//                        tint = MaterialTheme.colors.error, contentDescription = ""
-//                    )
-//
-//                    AddressFromLatLng(
-//                        latitude = weather.lat,
-//                        longitude = weather.lon,
-//                        modifier = modifier
-//                    )
-//                }
-//
-//                Text(text = weather.current.dt.toDate())
-//                Box(){
-//                    ImageFromInternet(
-//                        size = 150.dp,
-//                        url = weather.current.weather[0].icon
-//
-//                    )
-//                    Text(
-//                        text = "33".plus("c"),
-//                        fontSize = 70.sp,
-//                        fontWeight = FontWeight.Normal,
-//                        modifier= Modifier.padding(top = 90.dp)
-//
-//                    )
-//                    Text(
-//                        text = "o",
-//                        fontSize = 16.sp,
-//                        fontWeight = FontWeight.Normal,
-//                        modifier= Modifier.padding(top = 100.dp, start = 74.dp)
-//
-//                    )
-//
-//                }
-//
-//                Text(
-//                    text = weather.current.weather[0].description,
-//                    fontSize = 24.sp,
-//                    fontWeight = FontWeight.Normal,
-//
-//                )
-//
-//
-//            }
-
-
-//            Box(
-//                Modifier
-//                    .fillMaxWidth()
-//                    .padding(start = 15.dp)
-//
-//
-//            ) {
-//
-//              Column(modifier = modifier.align(Alignment.BottomStart)) {
-//                Row(
-//                    verticalAlignment = Alignment.Bottom,
-//
-//                ) {
-//                    if(weather!=null) {
-//                        Text(
-//                            text = weather.current.temp.toString(),
-//                            fontSize = 50.sp,
-//                            fontWeight = FontWeight.Normal,
-//
-//                        )
-//                        Text(
-//                            text = weather.current.weather[0].description,
-//                            fontSize = 24.sp,
-//                            fontWeight = FontWeight.Normal,
-//                           modifier= modifier.padding(start = 8.dp, bottom = 4.dp)
-//
-//                        )
-//
-//                    }
-//                }
-//
-//                  Row() {
-//                    if(weather!=null) {
-//                        Text(text = weather.current.dt.toDate(), modifier.padding(end = 8.dp))
-//
-//                        Text(text = "${weather.daily[0].temp.max} / ${weather.daily[0].temp.min} ")
-//                    }
-//                }
-//              }
-//
-//
-//
-//                Box(
-//                    modifier = modifier
-//                        .align(Alignment.TopEnd).padding(bottom = 32.dp)
-//                        .size(150.dp)
-//                ) {
-//                    var isImageLoading by remember { mutableStateOf(false) }
-//                    val painter = rememberAsyncImagePainter(
-//                        model = "https://openweathermap.org/img/w/${weather?.current?.weather?.get(0)?.icon}.png",
-//                    )
-//
-//                    isImageLoading = when (painter.state) {
-//                        is AsyncImagePainter.State.Loading -> true
-//                        else -> false
-//                    }
-//
-//                    Image(
-//                        modifier = Modifier
-//                            .size(150.dp),
-//                        painter = painter,
-//                        contentDescription = "current Image",
-//                        contentScale = ContentScale.FillBounds,
-//                    )
-//                    if(isImageLoading) {
-//                        CircularProgressIndicator(
-//                            modifier = Modifier.align(Alignment.Center),
-//                            color = MaterialTheme.colors.primary,
-//                        )
-//                    }
-//
-//
-//                }
-//
-//            }
-
-
-
-
 
 
 

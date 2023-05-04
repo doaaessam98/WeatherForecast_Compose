@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.weatherforecast.app.screen.map.MapViewModel
+import com.example.weatherforecast.app.screen.setting.SettingViewModel
 
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -13,6 +14,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 @Composable
 fun NavGraph(
     navController: NavHostController,
+
 ){
 
     val systemUiController: SystemUiController = rememberSystemUiController()

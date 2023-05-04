@@ -1,8 +1,7 @@
 package com.example.weatherforecast.app.navigation
 
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
-import android.util.Log
+import android.content.Context
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -33,7 +33,9 @@ import com.example.weatherforecast.app.screen.mangeCities.MangeCities
 import com.example.weatherforecast.app.screen.map.MapScreen
 import com.example.weatherforecast.app.screen.map.MapViewModel
 import com.example.weatherforecast.app.screen.setting.SettingScreen
+import com.example.weatherforecast.app.screen.setting.SettingViewModel
 import com.example.weatherforecast.app.ui.theme.pink
+import java.util.*
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -41,6 +43,7 @@ fun BottomNavGraph(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
 ) {
+
     var currentLocation = remember { mutableStateOf(Pair(0.0, 0.0)) }
 
     var isTopBarVisible by remember { mutableStateOf(true) }
@@ -49,12 +52,16 @@ fun BottomNavGraph(
         scaffoldState = scaffoldState,
         bottomBar = { HomeBottomBarNavigation(modifier, navController) }
     ) { paddingValues ->
+
+
         NavHost(
             navController,
             startDestination = BottomBarScreen.Home.route
         )
         {
             composable(route = BottomBarScreen.Home.route) {
+
+                //updateBaseContextLocale(context)
                 HomeScreen(
                     lat = Constants.HOME_LAT,
                     lon = Constants.HOME_LON ,
@@ -90,6 +97,7 @@ fun BottomNavGraph(
                       })
             }
             composable(route = BottomBarScreen.Settings.route) {
+
                 SettingScreen()
             }
             composable(route = BottomBarScreen.Alarm.route) {
@@ -222,4 +230,19 @@ sealed class BottomBarScreen(
         icon = Icons.Default.Settings
     )
 
+}
+
+private fun updateBaseContextLocale(context: Context?): Context? {
+    val language = getSavedLanguage()
+    val configuration = context?.resources?.configuration
+    Locale.setDefault(Locale(language))
+    val updatedConfiguration = android.content.res.Configuration(configuration)
+    updatedConfiguration.setLocale(Locale(language))
+    return context?.createConfigurationContext(updatedConfiguration)
+}
+
+
+private fun getSavedLanguage(): String {
+
+    return "ar"
 }

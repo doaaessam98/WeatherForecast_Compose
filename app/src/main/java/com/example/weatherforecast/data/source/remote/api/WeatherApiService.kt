@@ -16,7 +16,7 @@ suspend fun getWeatherData(
     @Query("lat")lat:Double,
     @Query("lon")lon:Double,
     @Query("units")unit:String ="metric" ,
-    @Query("appid")apiId:String="f2f9ec409c67b8498f33c2bf4c7fb7e7"
+    @Query("appid")apiId:String=""
 ):WeatherResponse
 
 }
