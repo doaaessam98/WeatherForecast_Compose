@@ -33,9 +33,11 @@
     <string name="english">الانجليزية</string>
     <string name="arabic">العربية</string>
     <string name="today">اليوم</string>
-    <string name="next_7_days"> 7ايام القادمة </string>
+    <string name="next_7_days"> ٧ايام القادمة </string>
     <string name="weather_details">تفاصيل الطقس</string>
     <string name="search_her">ابحث هنا..</string>
+    <string name="days_title">الطقس في ٧ايام القادمة </string>
+
 
 
 

@@ -1,7 +1,9 @@
 package com.example.weatherforecast.app.navigation
 
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
 import android.content.Context
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,7 +36,9 @@ import com.example.weatherforecast.app.screen.map.MapScreen
 import com.example.weatherforecast.app.screen.map.MapViewModel
 import com.example.weatherforecast.app.screen.setting.SettingScreen
 import com.example.weatherforecast.app.screen.setting.SettingViewModel
+import com.example.weatherforecast.app.screen.sevenDay.NextSevenDay
 import com.example.weatherforecast.app.ui.theme.pink
+import com.example.weatherforecast.domain.models.remote.Daily
 import java.util.*
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -45,7 +49,7 @@ fun BottomNavGraph(
 ) {
 
     var currentLocation = remember { mutableStateOf(Pair(0.0, 0.0)) }
-
+   var days = listOf<Daily>()
     var isTopBarVisible by remember { mutableStateOf(true) }
     val scaffoldState = rememberScaffoldState()
     Scaffold(
@@ -60,12 +64,13 @@ fun BottomNavGraph(
         )
         {
             composable(route = BottomBarScreen.Home.route) {
-
-                //updateBaseContextLocale(context)
                 HomeScreen(
                     lat = Constants.HOME_LAT,
                     lon = Constants.HOME_LON ,
-                    onNextDaysClick = {},
+                    onNextDaysClick = {
+                        days=it
+                        navController.navigate(Screen.SevenDay.route)
+                    },
                     onLocationClicked ={
                         //navController.navigate(Screen.Cities.route)
                      }
@@ -73,16 +78,19 @@ fun BottomNavGraph(
 
             }
 
+
+            composable(route=Screen.SevenDay.route){
+                  NextSevenDay(days = days) {
+                      navController.popBackStack()
+                  }
+
+            }
             composable(route=Screen.Map.route) { backStackEntry ->
                 val mapViewModel: MapViewModel= hiltViewModel()
                 MapScreen(){
                     mapViewModel.addCity(it)
                 }
                 //navController.popBackStack()
-            }
-            composable(route=Screen.SevenDay.route){
-
-
             }
             composable(route = BottomBarScreen.MangeCities.route) {
                   MangeCities(onAddClick =  {
@@ -91,7 +99,6 @@ fun BottomNavGraph(
                       onPlaceClick = {lat,lag->
                            Constants.HOME_LAT=lat
                            Constants.HOME_LON = lag
-//                          currentLocation.value =Pair(lat,lag)
                           navController.popBackStack()
 
                       })
@@ -105,8 +112,6 @@ fun BottomNavGraph(
                     navController.navigate(Screen.CreateAlarm.route)
                 })
             }
-
-
             composable(route =Screen.CreateAlarm.route) {
                 CreateAlarm(){
                     navController.popBackStack()

@@ -2,6 +2,7 @@ package com.example.weatherforecast.app.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.weatherforecast.data.source.local.datastore.StoreLanguage
 import com.example.weatherforecast.data.source.local.db.AlarmDao
 import com.example.weatherforecast.data.source.local.db.WeatherDao
 import com.example.weatherforecast.data.source.local.db.WeatherDataBase
@@ -32,5 +33,8 @@ object DataBaseModule {
     @Provides
     @Singleton
     fun provideAlarmDao(db:WeatherDataBase ): AlarmDao =db.alarmDao()
+
+    @Provides
+    fun provideStoreLang(@ApplicationContext context: Context)= StoreLanguage(context)
 
 }

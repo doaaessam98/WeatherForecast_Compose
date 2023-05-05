@@ -35,6 +35,7 @@
     <string name="next_7_days">next 7 day</string>
     <string name="weather_details">Weather Details</string>
     <string name="search_her">search here</string>
+    <string name="days_title">Weather in next 7 Days</string>
 
 
 </resources>

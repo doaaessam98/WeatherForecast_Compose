@@ -2,8 +2,10 @@ package com.example.weatherforecast.data.repoImp.weather
 
 import android.content.ContentValues.TAG
 import android.util.Log
+import androidx.compose.runtime.collectAsState
 import com.example.weatherforecast.app.Utils.DataResult
 import com.example.weatherforecast.data.source.local.LocalDataSource
+import com.example.weatherforecast.data.source.local.datastore.StoreLanguage
 import com.example.weatherforecast.data.source.remote.RemoteDataSource
 import com.example.weatherforecast.domain.models.db.Weather
 import com.example.weatherforecast.domain.models.db.WeatherDB
@@ -17,12 +19,16 @@ import javax.inject.Inject
 
 class WeatherRepoImp @Inject constructor(
     private val localDataSource: LocalDataSource,
-    private val remoteDataSource: RemoteDataSource
+    private val remoteDataSource: RemoteDataSource,
+    private val storeLanguage: StoreLanguage
 ) : WeatherRepo {
 
-   override  suspend fun getWeatherData(latitude: Double, longitude: Double):DataResult<Weather>{
+    var lan = storeLanguage.languageFlow.value.language
+
+    override  suspend fun getWeatherData(latitude: Double, longitude: Double):DataResult<Weather>{
        refreshWeatherData(latitude,longitude)
        return try {
+
                  val result  =  localDataSource.getWeatherData(latitude,longitude)
                   DataResult.Success(result.toWeatherModel())
 
@@ -35,10 +41,11 @@ class WeatherRepoImp @Inject constructor(
 
 
     override suspend fun refreshWeatherData(lat: Double, lon: Double) {
-        withContext(Dispatchers.IO){
-            try {
-                    val response = remoteDataSource.getWeatherData(lat, lon)
 
+            withContext(Dispatchers.IO){
+            try {
+
+                    val response = remoteDataSource.getWeatherData(lat, lon,storeLanguage.languageFlow.value.language)
                     localDataSource.insertWeatherData(response.toWeatherDataBase())
 
 
@@ -46,6 +53,7 @@ class WeatherRepoImp @Inject constructor(
                 Log.e(TAG, "refreshWeatherData:Error ${e.localizedMessage}", )
             }
     }
+
     }
 
     override suspend fun insertDataInDataBase(latLng: LatLng) {

@@ -26,9 +26,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.airbnb.lottie.compose.*
 import com.example.weatherforecast.R
 import com.example.weatherforecast.app.Utils.DataResult
-import com.example.weatherforecast.app.screen.home.LoadingScreen
+import com.example.weatherforecast.app.screen.common.AnimatedScreen
+import com.example.weatherforecast.app.screen.common.LoadingScreen
 import com.example.weatherforecast.domain.models.db.Alarm
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
@@ -145,7 +147,7 @@ fun AlarmScreenContent(
         topBar = {
             if(!isDeleteScreen.value){
                 TopAppBar(
-                    title = { Text(stringResource(id = R.string.alarms)) },
+                    title = { if(alarmsList.value.isNotEmpty()) Text(stringResource(id = R.string.alarms)) },
                     actions = {
                         if(alarmsList.value.isNotEmpty()){
                        IconButton(onClick = {isDeleteScreen.value = true}) {
@@ -208,13 +210,12 @@ fun AlarmScreenContent(
                     LoadingScreen()
                 }
                 is DataResult.Success ->{
+
                     alarmsList.value = it.data.map {alarm ->
                         alarm.id
                     }.toSet()
                     if(it.data.isEmpty()){
-                        Box(modifier.fillMaxSize()) {
-
-                        }
+                        AnimatedScreen(animation = R.raw.alarm)
                     }else{
                         AlarmsListContent(it.data,
                             multipleCheckedList = selectedList,
@@ -230,6 +231,7 @@ fun AlarmScreenContent(
         }
     }
 }
+
 
 
 

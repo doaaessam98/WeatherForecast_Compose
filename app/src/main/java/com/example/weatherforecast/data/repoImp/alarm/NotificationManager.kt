@@ -24,8 +24,6 @@ import androidx.navigation.NavDeepLinkBuilder
 import com.example.weatherforecast.R
 import com.example.weatherforecast.app.Utils.Constants
 import com.example.weatherforecast.app.screen.MainActivity
-import com.example.weatherforecast.app.screen.home.LocationPermissionScreen
-import okhttp3.internal.notify
 import javax.inject.Inject
 
 class NotificationManager @Inject constructor(private val context: Context) {
@@ -41,13 +39,10 @@ class NotificationManager @Inject constructor(private val context: Context) {
         lat:Double,
         lon:Double
     ) {
-
-        Log.e(TAG, "sendNotification: ${lat}", )
         val intent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             putExtra(Constants.KET_HOME_LAT, lat)
             putExtra(Constants.KEY_HOME_LON, lon)
-            putExtra("key","123" )
         }
 
         val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
@@ -69,20 +64,6 @@ class NotificationManager @Inject constructor(private val context: Context) {
                     Manifest.permission.POST_NOTIFICATIONS
                 )!=PackageManager.PERMISSION_GRANTED
             ) {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-//                    LocationPermissionScreen(
-//                        context = context,
-//                        permission = Manifest.permission.POST_NOTIFICATIONS ,
-//                        onPermissionGranted = {
-//                            notify(notificationId,builder.build())
-//                        },
-//                        onPermissionDenied = {
-//
-//                        },
-//                        scaffoldState = null
-//                    )
-                }
-                Log.e(TAG, "sendNotification: ", )
                 return
             }
             notify(notificationId,builder.build())

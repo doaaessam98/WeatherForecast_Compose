@@ -26,11 +26,14 @@ import com.example.weatherforecast.data.source.local.datastore.StoreLanguage
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import androidx.compose.ui.unit.LayoutDirection
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     lateinit var navHostController: NavHostController
+   @Inject
+    lateinit var  dataStore:StoreLanguage
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +47,7 @@ class MainActivity : ComponentActivity() {
         
         
         setContent {
-            val dataStore = StoreLanguage(this)
+            //val dataStore = StoreLanguage
             val savedLan = dataStore.languageFlow.collectAsState().value
             updateAppLang(this,savedLan)
             val currentLocale = LocalConfiguration.current.locale

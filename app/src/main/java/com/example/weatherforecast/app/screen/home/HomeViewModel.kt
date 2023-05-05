@@ -1,6 +1,8 @@
 package com.example.weatherforecast.app.screen.home
 
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weatherforecast.domain.useCase.GetWeatherDataUseCase
@@ -26,11 +28,14 @@ class HomeViewModel @Inject constructor(
             getWeatherData.invoke(latitude,longitude).let {
                 when(it){
                     is DataResult.Success->{
+                        Log.e(TAG, "getWeatherData: ${it.data}", )
                       _weatherData.value = it
                     }
                     is  DataResult.Error->{
+                        Log.e(TAG, "getWeatherData333: ${it.message}", )
 
-                  }
+
+                    }
 
                 }
             }

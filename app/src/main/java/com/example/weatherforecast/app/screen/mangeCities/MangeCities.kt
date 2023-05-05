@@ -1,11 +1,9 @@
 package com.example.weatherforecast.app.screen.mangeCities
 
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.location.Address
 import android.location.Geocoder
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
@@ -16,7 +14,6 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -37,18 +34,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.weatherforecast.R
 import com.example.weatherforecast.app.Utils.DataResult
 import com.example.weatherforecast.app.screen.alarm.CustomFloatingButton
-import com.example.weatherforecast.app.screen.alarm.getAddressFromLatLng
-import com.example.weatherforecast.app.screen.home.AddressFromLatLng
-import com.example.weatherforecast.app.screen.home.LoadingScreen
-import com.example.weatherforecast.app.screen.home.ShowAlertDialog
-import com.example.weatherforecast.app.screen.home.combosable.ImageFromInternet
+import com.example.weatherforecast.app.screen.common.ImageFromInternet
+import com.example.weatherforecast.app.screen.common.LoadingScreen
+import com.example.weatherforecast.app.screen.common.ShowAlertDialog
 import com.example.weatherforecast.app.screen.home.combosable.Temperature
-import com.example.weatherforecast.domain.models.db.Weather
 import com.example.weatherforecast.domain.models.db.WeatherDB
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.util.*
 
@@ -195,7 +185,6 @@ fun MangeCities(
          onConfirm = {
              viewModel.deletePlaces(selectedList.value)
              showDialog = false
-             Log.e(TAG, "MangeCities: ${citiesList.value}", )
              isDeleteScreen.value=false
              selectedList.value = emptySet()
          }, onDismiss = {

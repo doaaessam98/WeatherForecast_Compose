@@ -13,7 +13,7 @@ class RemoteDataSourceImp @Inject constructor(
     private val apiService: WeatherApiService
     ):RemoteDataSource {
 
-    override suspend fun getWeatherData(lat:Double,lon:Double): WeatherResponse {
-       return  apiService.getWeatherData(lat,lon)
+    override suspend fun getWeatherData(lat:Double,lon:Double,lang:String): WeatherResponse {
+       return  apiService.getWeatherData(lat,lon,lang)
     }
 }

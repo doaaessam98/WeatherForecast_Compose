@@ -1,32 +1,104 @@
 package com.example.weatherforecast.app.screen.sevenDay
 
+import android.annotation.SuppressLint
 import android.text.format.DateFormat
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.weatherforecast.app.screen.home.combosable.ImageFromInternet
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.weatherforecast.R
+import com.example.weatherforecast.app.Utils.DataResult
+import com.example.weatherforecast.app.screen.alarm.CustomFloatingButton
+import com.example.weatherforecast.app.screen.common.ImageFromInternet
+import com.example.weatherforecast.app.screen.common.LoadingScreen
 import com.example.weatherforecast.domain.models.remote.Daily
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun NextSevenDay(modifier:Modifier = Modifier,days:List<Daily>){
-    Column(modifier.padding(8.dp)) {
-        Text(text = "Weather in next 7 Days",modifier.padding(bottom = 16.dp))
-  LazyColumn(){
-      itemsIndexed(days){index,day->
-          DayCard(modifier,day,index)
+fun NextSevenDay(
+    modifier:Modifier = Modifier,
+    days: List<Daily>,
+    viewModel: DaysViewModel= hiltViewModel(),
+    onBackClick:()->Unit
+    ){
+    val daysState = viewModel.days.collectAsState().value
 
-      }
-  }}
+    Scaffold(
+
+
+        topBar = {
+
+                TopAppBar(
+                    title = { Text(stringResource(id = R.string.days_title)) },
+                    elevation = 1.dp,
+                    backgroundColor = Color.Transparent,
+                    navigationIcon = {
+                        IconButton(onClick = {onBackClick.invoke()}) {
+                            Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "back")
+                        }
+                    }
+                )
+            }
+
+    ){
+//        LaunchedEffect(Unit){
+//            viewModel.getDaysData(placeId)
+//        }
+
+//        daysState?.let {
+//            when(it){
+//                is DataResult.Loading->{
+//                    LoadingScreen()
+//                }
+//                is DataResult.Success ->{
+//                    if(it.data.isEmpty()){
+//
+//                    }else{
+//                        DaysScreenContent(
+//                            days = it.data,
+//                            )
+//                    }
+//                }
+//                is DataResult.Error->{
+//
+//                }
+//            }
+//        }
+        
+        DaysScreenContent(days = days)
+
+
+    }
 }
+
+
+
+@Composable
+fun DaysScreenContent(modifier: Modifier=Modifier,days:List<Daily>){
+
+    LazyColumn(modifier.padding(vertical = 16.dp)){
+        itemsIndexed(days){index,day->
+            DayCard(modifier,day,index)
+
+        }
+    }}
+
 
 @Composable
 fun DayCard(modifier:Modifier,days: Daily,index:Int) {

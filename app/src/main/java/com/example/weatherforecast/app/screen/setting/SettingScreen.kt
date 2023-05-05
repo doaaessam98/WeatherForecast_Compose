@@ -40,7 +40,6 @@ fun  SettingScreen(
                  Column(
                     modifier = Modifier.fillMaxWidth().padding(16.dp),
                     verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
                         text = stringResource(id = R.string.language),
@@ -49,9 +48,6 @@ fun  SettingScreen(
                     )
                     languages.forEach { language ->
                         LanguageOption(language = language, selectedLanguage = selectedLanguage, onLanguageSelected = {
-                            Log.e(TAG, "SettingScreen:${language} ", )
-                            Log.e(TAG, "SettingScreen2:${selectedLanguage} ", )
-
                             scope.launch {
                               dataStore.saveLanguage(it.language)
                             }
@@ -68,7 +64,8 @@ fun  SettingScreen(
                 .padding(vertical = 8.dp)
                 .selectable(
                     selected =  selectedLanguage.language == language.language,
-                    onClick = { onLanguageSelected(language) })
+                    onClick = { onLanguageSelected(language) }),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             RadioButton(
                 selected = selectedLanguage.language == language.language,

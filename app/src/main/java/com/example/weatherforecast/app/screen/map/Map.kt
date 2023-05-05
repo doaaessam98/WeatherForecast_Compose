@@ -2,11 +2,9 @@ package com.example.weatherforecast.app.screen.map
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.location.Address
 import android.location.Geocoder
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -15,7 +13,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
-import androidx.compose.runtime.internal.illegalDecoyCallException
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,17 +20,17 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.weatherforecast.R
-import com.example.weatherforecast.app.screen.home.LocationPermissionScreen
-import com.example.weatherforecast.app.screen.home.combosable.checkIfPermissionGranted
-import com.example.weatherforecast.app.screen.home.getLastLocation
+import com.example.weatherforecast.app.screen.common.LocationPermissionScreen
+import com.example.weatherforecast.app.screen.common.checkIfPermissionGranted
+import com.example.weatherforecast.app.screen.common.getLastLocation
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
 import kotlinx.coroutines.*
 import java.io.IOException
+
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MapScreen(
@@ -100,7 +97,7 @@ fun MapContent(
      val properties by remember { mutableStateOf(MapProperties(mapType = MapType.NORMAL)) }
 
      val cameraPositionState = rememberCameraPositionState {
-         position = CameraPosition.fromLatLngZoom(singapore, 15f)
+         position = CameraPosition.fromLatLngZoom(singapore, 8f)
      }
 
      val singaporeState = rememberMarkerState(position = singapore)
